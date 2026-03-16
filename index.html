@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tax Brackets Explained</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f5f0e8;
+    --muted: #8a8070;
+    --border: #d4c9b4;
+    --teal: #2a7f6f;
+    --accent: #c84b31;
+    --gold: #d4900a;
+    --warm-white: #fff;
+    --surface: #faf7f2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .hero {
+    padding: 64px 40px 52px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: var(--paper);
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 2.6rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .hero p {
+    font-size: 0.98rem;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .container { max-width: 800px; margin: 0 auto; padding: 0 32px; }
+  section { padding: 64px 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+  .section-num {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-num::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 40px;
+  }
+  h2 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 1.55rem;
+    font-weight: 400;
+    margin-bottom: 20px;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  p { margin-bottom: 14px; max-width: 660px; }
+  p:last-child { margin-bottom: 0; }
+
+  em { font-style: italic; }
+  strong { font-weight: 500; }
+
+  .callout {
+    border-left: 3px solid var(--border);
+    padding: 14px 18px;
+    margin: 24px 0;
+    font-size: 0.92rem;
+    color: var(--muted);
+    background: rgba(255,255,255,0.4);
+  }
+  .callout.highlight {
+    border-left-color: var(--teal);
+    background: rgba(42,127,111,0.05);
+    color: var(--ink);
+  }
+  .callout.warn {
+    border-left-color: var(--gold);
+    background: rgba(212,144,10,0.05);
+    color: var(--ink);
+  }
+
+  .viz-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    padding: 28px;
+    margin: 28px 0;
+    border-radius: 2px;
+  }
+  .viz-card-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+    font-weight: 400;
+  }
+  .viz-card-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 22px; line-height: 1.6; }
+
+  /* ── IMPROVED SLIDER ── */
+  .slider-row { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
+  .slider-label { font-size: 12px; color: var(--muted); white-space: nowrap; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; }
+  .slider-wrapper { flex: 1; min-width: 180px; position: relative; }
+  input[type=range] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--ink);
+    cursor: pointer;
+    transition: transform .12s, box-shadow .12s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+  input[type=range]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.22);
+  }
+  .slider-tick-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .income-display {
+    font-size: 1.4rem;
+    white-space: nowrap;
+    min-width: 120px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  .bar-track { height: 44px; background: #ede8de; border: 1px solid var(--border); overflow: hidden; display: flex; margin-bottom: 8px; border-radius: 1px; }
+  .bar-segment { height: 100%; transition: width 0.4s ease; }
+  .bracket-legend { display: flex; flex-wrap: wrap; gap: 5px 14px; margin-bottom: 18px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
+  .legend-dot { width: 9px; height: 9px; border-radius: 1px; flex-shrink: 0; }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .stat-cell { background: white; padding: 14px; text-align: center; }
+  .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 5px; }
+  .stat-value { font-size: 1.2rem; color: var(--ink); transition: color 0.3s; font-variant-numeric: tabular-nums; }
+  .stat-value.highlight { color: var(--teal); }
+  .stat-sub { font-size: 10px; color: var(--muted); margin-top: 3px; }
+
+  .bracket-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 18px; }
+  .bracket-table th {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-align: left;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .bracket-table td { padding: 7px 10px; border-bottom: 1px solid #f0ece2; }
+  .bracket-table tr.active-row td { background: #fffbf0; }
+  .bracket-table tr.active-row td:first-child { border-left: 2px solid var(--gold); }
+  .bracket-swatch { display: inline-block; width: 9px; height: 9px; border-radius: 1px; margin-right: 5px; vertical-align: middle; }
+  .amount-col { color: var(--teal); }
+
+  .myth-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); margin: 22px 0; align-items: stretch; }
+  .myth-panel { background: white; padding: 20px; display: flex; flex-direction: column; }
+  .myth-panel.bad { background: #fff8f7; }
+  .myth-panel.good { background: #f5fffe; }
+  .myth-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 8px; font-weight: 500; }
+  .myth-tag.bad { color: var(--accent); }
+  .myth-tag.good { color: var(--teal); }
+  .myth-panel h4 { font-size: 0.9rem; font-weight: 500; margin-bottom: 8px; }
+  .myth-panel p { font-size: 0.85rem; color: var(--muted); max-width: none; flex-shrink: 0; flex-grow: 1; }
+  .myth-panel-bottom { margin-top: auto; padding-top: 14px; }
+  .crossover-bar { height: 30px; background: #ede8de; border: 1px solid var(--border); overflow: hidden; margin: 8px 0; border-radius: 1px; }
+  .crossover-fill { height: 100%; transition: width 0.4s ease; }
+  .myth-amt { font-size: 12px; color: var(--muted); margin-top: 5px; }
+
+  .source-note { font-size: 10px; color: var(--muted); margin-top: 10px; letter-spacing: 0.03em; }
+  .formula {
+    background: var(--ink);
+    color: #b0a898;
+    font-size: 12px;
+    padding: 11px 14px;
+    margin: 18px 0;
+    letter-spacing: 0.06em;
+    font-family: 'DM Mono', 'Courier New', monospace;
+    border-radius: 1px;
+  }
+  .persona-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+  .persona-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .persona-btn:hover { background: var(--surface); color: var(--ink); border-color: #b0a898; }
+  .persona-btn.active { background: var(--ink); color: white; border-color: var(--ink); }
+
+  footer { text-align: center; padding: 36px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--border); letter-spacing: 0.05em; }
+
+  .fade-in { opacity: 0; transform: translateY(14px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  /* ── Section 02: deduction viz ── */
+  #dedCanvas { width: 100%; height: 180px; display: block; }
+  .ded-stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 18px; }
+  .ded-stat-cell { background: white; padding: 14px; text-align: center; }
+  .ded-stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 5px; }
+  .ded-stat-val { font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+
+  /* ── Section 02: deduction bars (kept for JS compat) ── */
+  .ded-row { display: none; }
+  .ded-track { display: none; }
+  .ded-seg { display: none; }
+
+  /* ── Section 04: filing status ── */
+  .filing-card-hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--teal);
+    background: rgba(42,127,111,0.07);
+    border: 1px solid rgba(42,127,111,0.2);
+    padding: 8px 12px;
+    margin-bottom: 14px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+  .filing-card-hint svg { flex-shrink: 0; }
+  #filingStatusChart { width: 100%; height: 380px; display: block; cursor: pointer; }
+  #filingAnnotation {
+    font-size: 12.5px;
+    color: var(--ink);
+    margin-top: 12px;
+    line-height: 1.65;
+    min-height: 3.8em;
+    padding: 10px 14px;
+    background: var(--surface);
+    border-left: 3px solid var(--teal);
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+  #filingAnnotation.has-content { opacity: 1; }
+
+  /* ── Consequence callout blocks ── */
+  .consequence-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 22px 0;
+  }
+  .consequence-item {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 16px;
+    border-radius: 2px;
+  }
+  .consequence-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .consequence-title {
+    font-size: 0.88rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .consequence-body { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+  .consequence-item.positive { border-top: 2px solid var(--teal); }
+  .consequence-item.negative { border-top: 2px solid var(--accent); }
+  .consequence-item.neutral { border-top: 2px solid var(--gold); }
+
+  /* ── History chart ── */
+  #history-canvas { width: 100%; height: 270px; display: block; cursor: pointer; }
+  #historyAnnotation {
+    font-size: 12.5px;
+    color: var(--ink);
+    margin-top: 12px;
+    line-height: 1.65;
+    min-height: 3.8em;
+    padding: 10px 14px;
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+  }
+
+  .toc {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 16px 0;
+    font-size: 12px;
+    color: var(--muted);
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.02em;
+  }
+  .toc a { color: var(--muted); text-decoration: none; }
+  .toc a:hover { color: var(--ink); }
+
+  .tooltip-box {
+    position: fixed;
+    background: var(--ink);
+    color: #f5f0e8;
+    font-size: 12px;
+    padding: 7px 11px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 1000;
+    max-width: 230px;
+    line-height: 1.5;
+    display: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  }
+
+  @media (max-width: 600px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    .myth-compare { grid-template-columns: 1fr; }
+    .consequence-grid { grid-template-columns: 1fr; }
+    .viz-card { padding: 18px; }
+    .hero h1 { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="tooltip-box" id="globalTooltip"></div>
+
+<header class="hero">
+  <div class="hero-eyebrow">U.S. Federal Income Tax</div>
+  <h1>Tax Brackets Explained</h1>
+  <p>An interactive guide to how the U.S. federal income tax bracket system actually works, and why the most common belief about it is wrong.</p>
+</header>
+
+<nav class="toc">
+  <a href="#s0">Introduction</a>
+  <a href="#s-deduction">Standard Deduction</a>
+  <a href="#s1">How Brackets Work</a>
+  <a href="#s-filing">Filing Status</a>
+  <a href="#s3">History</a>
+  <a href="#s-recap">Summary</a>
+</nav>
+
+<!-- ═══════════════════ 01 INTRO ═══════════════════ -->
+<section id="s0">
+  <div class="container fade-in">
+    <div class="section-num">01 - Introduction</div>
+    <h2>Have you ever turned down a raise because you thought it would cost you money?</h2>
+    <p>A surprisingly common belief holds that crossing into a higher tax bracket means your entire income gets taxed at the new, higher rate, so a raise could theoretically leave you worse off. People sometimes turn down overtime, bonuses, or promotions out of fear of "landing in a higher bracket." Some even count on this as financial strategy, timing large payments to avoid bracket crossings.</p>
+    <p>This is a myth. The U.S. federal income tax system is <em>progressive</em>, meaning higher rates apply only to the dollars earned <em>within</em> each bracket, never retroactively to dollars already earned. No matter how much more you earn, your federal income tax bill will always be smaller than what you added to your paycheck. A raise is always a raise.</p>
+    <div class="callout highlight">
+      A 22% tax bracket does not mean you pay 22% of your entire income. It means only the portion of income that falls within that bracket is taxed at 22%. Every dollar below that threshold is taxed at its own lower rate, no matter what you earn above it.
+    </div>
+    <p>The confusion persists partly because of how casually people use the word "bracket." When someone says "I'm in the 22% bracket," they usually mean that is the highest rate they hit, not that 22% describes their entire tax situation. Understanding the difference between that highest rate and what you actually pay is the central insight this article builds toward.</p>
+    <p>Before diving in, one piece of context worth establishing: every American who files a federal return files under one of three main <strong>filing statuses</strong>. <strong>Single</strong> filers are unmarried individuals with no qualifying dependents. <strong>Married Filing Jointly</strong> (MFJ) combines both spouses' incomes onto one return and is how most married couples file. <strong>Head of Household</strong> (HoH) is a status for unmarried people who pay more than half the cost of keeping up a home for a qualifying child or dependent — it provides somewhat better rates than Single to recognize the financial burden of supporting dependents alone. The same seven bracket rates apply to all three, but the income thresholds and the initial deduction that shelters income before brackets even begin both differ by status. This article introduces each in context.</p>
+    <p>This article focuses specifically on <strong>federal income tax</strong>. Payroll taxes (Social Security and Medicare), state income taxes, and others are not covered here. The bracket mechanics explained below apply to the federal income tax portion of your bill only.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ 02 DEDUCTION ═══════════════════ -->
+<section id="s-deduction">
+  <div class="container fade-in">
+    <div class="section-num">02 - Before Brackets Even Apply</div>
+    <h2>A chunk of your income is sheltered from tax before brackets begin</h2>
+    <p>Before any bracket calculation happens, the federal tax system lets you subtract a fixed amount from your gross earnings. This is called the <strong>standard deduction</strong>. For 2024, it is <strong>$14,600</strong> for single filers, <strong>$29,200</strong> for married couples filing jointly, and <strong>$21,900</strong> for heads of household. The income remaining after this subtraction is your <strong>taxable income</strong>, and it is the only number the bracket system ever sees.</p>
+    <p>If a single filer earns $50,000, their taxable income is $35,400. Those first $14,600 are invisible to the bracket system; the IRS never applies a rate to them. Toggle the filing status below to see how the deduction changes the picture.</p>
+
+    <div class="viz-card">
+      <div class="viz-card-title">Your Income, Anatomized</div>
+      <div class="viz-card-desc">Drag to any income and see how your gross earnings split across the standard deduction (sheltered), federal income tax owed, and the remainder after federal income tax. Payroll and state taxes are not included here.</div>
+
+      <div class="persona-row" id="dedFilingRow" style="margin-bottom:18px;">
+        <button class="persona-btn active" data-filing="single">Single</button>
+        <button class="persona-btn" data-filing="mfj">Married Filing Jointly</button>
+        <button class="persona-btn" data-filing="hoh">Head of Household</button>
+      </div>
+
+      <div class="slider-row">
+        <span class="slider-label">Gross Income</span>
+        <div class="slider-wrapper">
+          <input type="range" id="deductionSlider" min="0" max="1000" step="1" value="540">
+          <div class="slider-tick-labels">
+            <span>$0</span><span>$50k</span><span>$150k</span><span>$400k</span><span>$750k</span>
+          </div>
+        </div>
+        <span class="income-display" id="deductionDisplay">$50,000</span>
+      </div>
+
+      <canvas id="dedCanvas" style="width:100%;height:130px;display:block;margin:8px 0;"></canvas>
+
+      <div class="ded-stat-row">
+        <div class="ded-stat-cell">
+          <div class="ded-stat-label">Taxable Income</div>
+          <div class="ded-stat-val" style="color:var(--teal);" id="dedTaxableVal">$35,400</div>
+        </div>
+        <div class="ded-stat-cell">
+          <div class="ded-stat-label">Share Sheltered</div>
+          <div class="ded-stat-val" id="dedShareVal">29%</div>
+        </div>
+        <div class="ded-stat-cell">
+          <div class="ded-stat-label">Tax Saved by Deduction</div>
+          <div class="ded-stat-val" id="dedBenefitVal">$1,460</div>
+        </div>
+      </div>
+
+      <!-- Hidden elements kept for JS compatibility -->
+      <div style="display:none;"><div class="ded-row"><div class="ded-track"><div class="ded-seg" id="dedGrossBar"><span class="ded-seg-label" id="dedGrossLabel"></span></div></div></div>
+      <div class="ded-row"><div class="ded-track" id="dedSplitTrack"><div class="ded-seg" id="dedShelterSeg"><span class="ded-seg-label" id="dedShelterLabel"></span></div><div class="ded-seg" id="dedTaxableSeg"><span class="ded-seg-label" id="dedTaxableLabel"></span></div></div></div>
+      <div id="dedGrossVal"></div></div>
+
+      <div class="source-note">IRS Rev. Proc. 2023-34 · 2024 tax year · <span id="dedSourceNote">single filer · standard deduction $14,600</span></div>
+    </div>
+
+    <p>At $50,000 as a single filer, the standard deduction and federal income tax together consume under 20% of gross income. Married couples filing jointly shelter twice as much income before brackets begin, which is why switching the toggle above shifts the bar noticeably. If your gross income is at or below your standard deduction, no federal income tax is owed at all. These figures cover federal income tax only; payroll and state taxes are calculated separately.</p>
+
+    <div class="callout">
+      An alternative to the standard deduction is <strong>itemizing</strong>: listing specific qualifying expenses such as mortgage interest, state and local taxes, and charitable donations. If those deductions total more than your standard deduction amount, itemizing reduces taxable income further. Most filers choose the standard deduction because the 2017 Tax Cuts and Jobs Act roughly doubled it, making itemizing worthwhile for a much smaller share of households. All calculations in this article use the standard deduction.
+    </div>
+
+    <p>With taxable income defined, the bracket system takes over. How it divides that number is where the myth gets its grip, and where the math defeats it.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ 03 BRACKETS ═══════════════════ -->
+<section id="s1">
+  <div class="container fade-in">
+    <div class="section-num">03 - How Brackets Work</div>
+    <h2>Income is divided into layers, and a raise can never cost you money</h2>
+    <p>With taxable income established, here is the core mechanic: the IRS divides that number into segments called <strong>tax brackets</strong>, and each segment is taxed at its own fixed rate. Think of them as containers that fill in order, the 10% container first, then 12%, then 22%, and so on. Once a dollar lands in a bracket, it stays taxed at that rate regardless of how much more you earn afterward. Nothing ever reaches back to reprice earlier dollars, which means earning more can never leave you with less.</p>
+    <p>Two terms come up constantly in tax discussions and are almost always conflated. The <strong>marginal tax rate</strong> is the rate on your next dollar of income, the bracket you currently sit in. If you are in the 22% bracket, 22 cents of each additional dollar you earn goes to federal income tax. The <strong>effective tax rate</strong> is different: total federal income tax divided by total gross income, the true average percentage paid across all brackets combined.</p>
+    <p>The effective rate is always lower than the marginal rate, often significantly so. This is the arithmetic consequence of progressive taxation, and it is the gap the myth ignores.</p>
+
+    <div class="formula">effective_rate = total_tax / gross_income &nbsp;·&nbsp; always &lt; marginal_rate</div>
+
+    <p>The visualizer below makes this concrete. Pick a persona or drag the slider to any income. The colored bar at the top shows your total tax broken into bracket-by-bracket contributions. The table below it shows exactly how much income sat in each container and what it cost.</p>
+    <div class="viz-card">
+      <div class="viz-card-title">2024 Bracket Visualizer (Single Filer)</div>
+      <div class="viz-card-desc">Select a persona or drag the slider. The contribution bar shows how each bracket adds to your total bill. The highlighted table row marks your highest active bracket.</div>
+
+      <div class="persona-row" id="personaRow">
+        <button class="persona-btn" data-income="42000">Teacher, $42k</button>
+        <button class="persona-btn" data-income="78000">Nurse, $78k</button>
+        <button class="persona-btn active" data-income="115000">Engineer, $115k</button>
+        <button class="persona-btn" data-income="210000">Physician, $210k</button>
+        <button class="persona-btn" data-income="420000">Partner, $420k</button>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Annual Income</span>
+        <div class="slider-wrapper">
+          <input type="range" id="incomeSlider" min="0" max="1000" step="1" value="563">
+          <div class="slider-tick-labels">
+            <span>$0</span><span>$30k</span><span>$75k</span><span>$150k</span><span>$750k</span>
+          </div>
+        </div>
+        <span class="income-display" id="incomeDisplay">$115,000</span>
+      </div>
+      <div class="bracket-legend" id="bracketLegend"></div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.14em;">Tax owed by bracket</div>
+      <div class="bar-track" id="taxBar"></div>
+      <canvas id="bracketContribCanvas" style="width:100%;height:62px;display:block;margin-bottom:16px;"></canvas>
+
+      <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="stat-cell">
+          <div class="stat-label">Total Tax Owed</div>
+          <div class="stat-value" id="statTax">$0</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">Marginal Rate</div>
+          <div class="stat-value" id="statMarginal">0%</div>
+          <div class="stat-sub">rate on last dollar</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">Effective Rate</div>
+          <div class="stat-value highlight" id="statEffective">0%</div>
+          <div class="stat-sub">actual % of income paid</div>
+        </div>
+      </div>
+
+      <!-- Hidden for JS compat -->
+      <canvas id="dollarTrailCanvas" style="display:none;"></canvas>
+      <div style="display:none;" id="dollarTrailCaption"></div>
+      <span id="statTakeHomeDisplay" style="display:none;"></span>
+
+      <table class="bracket-table">
+        <thead>
+          <tr>
+            <th>Bracket</th><th>Rate</th><th>Taxable Range</th>
+            <th>Your Income Here</th><th>Tax from Bracket</th>
+          </tr>
+        </thead>
+        <tbody id="bracketTableBody"></tbody>
+      </table>
+
+      <!-- Hidden stats kept for JS compat -->
+      <span id="statGross" style="display:none;"></span>
+      <span id="statTakeHome" style="display:none;"></span>
+      <span id="statDiff" style="display:none;"></span>
+      <div class="source-note">IRS Rev. Proc. 2023-34 · 2024 · single filer · standard deduction ($14,600) applied</div>
+    </div>
+
+    <p>The contribution bar breaks your total tax bill into its bracket-by-bracket pieces. The highlighted table row marks your top bracket. Notice how the effective rate stays well below the marginal rate: only the income within each bracket is taxed at that bracket's rate, so the higher brackets have far less weight than they appear. These figures cover federal income tax only; payroll taxes and state taxes are calculated separately.</p>
+    <p>Seeing the mechanics in the table is one thing. Watching what actually happens when income crosses a bracket boundary makes the core point impossible to miss.</p>
+
+    <div class="viz-card">
+      <div class="viz-card-title">What Crossing a Bracket Actually Costs</div>
+      <div class="viz-card-desc">Drag across bracket boundaries. The chart shows myth versus real tax owed at every income level. Your current position is marked. Notice the real line rises smoothly while the myth line jumps at each boundary crossing.</div>
+
+      <div class="slider-row">
+        <span class="slider-label">Gross Income</span>
+        <div class="slider-wrapper">
+          <input type="range" id="mythSlider" min="0" max="1000" step="1" value="723">
+          <div class="slider-tick-labels">
+            <span>$0</span><span>$50k</span><span>$150k</span><span>$400k</span><span>$750k</span>
+          </div>
+        </div>
+        <span class="income-display" id="mythIncome">$89,000</span>
+      </div>
+
+      <canvas id="mythCanvas" style="width:100%;height:200px;display:block;margin:8px 0;"></canvas>
+
+      <div class="myth-compare">
+        <div class="myth-panel bad">
+          <div class="myth-tag bad">The Myth</div>
+          <h4>Bracket rate applies to all income</h4>
+          <p>If your top bracket rate applied to everything you earn, crossing into a higher bracket would suddenly reprice all prior income at the new rate.</p>
+          <div class="myth-panel-bottom">
+            <div class="crossover-bar"><div class="crossover-fill" id="mythBadBar" style="background:var(--accent);width:0%"></div></div>
+            <div class="myth-amt">Myth tax: <span id="mythBadAmt" style="color:var(--accent);">$0</span></div>
+          </div>
+        </div>
+        <div class="myth-panel good">
+          <div class="myth-tag good">Reality</div>
+          <h4>Only new dollars pay the higher rate</h4>
+          <p>In reality, only the dollars above the bracket threshold are taxed at the new rate. All income below that line stays taxed exactly as before.</p>
+          <div class="myth-panel-bottom">
+            <div class="crossover-bar"><div class="crossover-fill" id="mythGoodBar" style="background:var(--teal);width:0%"></div></div>
+            <div class="myth-amt">Real tax: <span id="mythGoodAmt" style="color:var(--teal);">$0</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:12px;">
+        The real system costs <strong id="mythDiff" style="color:var(--teal);">$0</strong> less in tax than the myth predicts. A raise is always a raise.
+      </div>
+    </div>
+
+    <p>The myth would only hold in a flat-rate tax system, where one rate applies to all income and a rate increase genuinely does reprice every dollar. The U.S. federal income tax is not flat-rate, and never has been. Every additional dollar you earn reduces what the federal government takes as a share of your income.</p>
+
+    <p>There is one more layer to understand: the same seven rates apply to every filer, but the income ranges those rates cover differ depending on your household structure.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ 05 FILING STATUS ═══════════════════ -->
+<section id="s-filing">
+  <div class="container fade-in">
+    <div class="section-num">04 - Filing Status and Its Consequences</div>
+    <h2>The same seven rates apply to everyone; the bracket thresholds are what changes</h2>
+    <p>What the IRS adjusts based on your <strong>filing status</strong> is where the boundary between each bracket falls. A single filer, a married couple filing jointly, and a head of household all face the same rates but hit them at different income levels, and the standard deduction they subtract first also differs.</p>
+    <p>The chart below shows those thresholds side by side. Wider bars mean more room at that rate before the next bracket kicks in. Click any bar for exact numbers.</p>
+
+    <div class="viz-card">
+      <div class="viz-card-title">Bracket Widths Across Filing Statuses, 2024</div>
+
+      <div class="filing-card-hint">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M7 6.5v4M7 4.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        Click any bar to see exact thresholds and bracket width for that filing status
+      </div>
+
+      <canvas id="filingStatusChart"></canvas>
+      <div id="filingAnnotation">Select a bar above to see the income range and bracket width for that filing status.</div>
+      <div class="source-note">IRS Rev. Proc. 2023-34 · 2024 · standard deductions: Single $14,600 · Married Filing Jointly $29,200 · Head of Household $21,900</div>
+    </div>
+
+    <p>The structural differences visible in that chart produce four distinct real-world consequences worth understanding:</p>
+
+    <div class="consequence-grid">
+      <div class="consequence-item positive">
+        <div class="consequence-label">Marriage Bonus</div>
+        <div class="consequence-title">Wider brackets for most joint filers</div>
+        <div class="consequence-body">For many couples, especially those with unequal incomes, filing jointly results in lower total tax than two separate single returns. The 22% bracket, for instance, extends to $201,050 for joint filers versus $100,525 for singles. A spouse with high income benefits from the lower-earning spouse's unused lower bracket space.</div>
+      </div>
+      <div class="consequence-item negative">
+        <div class="consequence-label">Marriage Penalty</div>
+        <div class="consequence-title">High dual-earner couples can pay more</div>
+        <div class="consequence-body">When both spouses earn substantial, similar incomes, combining them on one return can push more income into higher brackets than two individual single returns would. Two people each earning $200,000 might pay more tax filing jointly than if they could both file as singles. This is called the marriage penalty and is most pronounced when both partners earn similar high amounts.</div>
+      </div>
+      <div class="consequence-item neutral">
+        <div class="consequence-label">Head of Household Advantage</div>
+        <div class="consequence-title">Intermediate bracket widths for qualifying single parents</div>
+        <div class="consequence-body">The head-of-household status recognizes the financial burden of supporting dependents alone. Its brackets are wider than single but narrower than joint. The 12% bracket extends to $63,100 versus $47,150 for single filers, a $15,950 wider window that can meaningfully reduce the tax bill of a working single parent.</div>
+      </div>
+      <div class="consequence-item neutral">
+        <div class="consequence-label">Deduction Stacking</div>
+        <div class="consequence-title">The advantage compounds before brackets even begin</div>
+        <div class="consequence-body">Joint filers deduct $29,200 from gross income before entering the bracket system, exactly double the single filer's $14,600. This means the tax advantage for married couples operates on two levels simultaneously: a larger deduction reduces taxable income first, and then wider bracket thresholds reduce the tax on that already-smaller number.</div>
+      </div>
+    </div>
+
+    <!-- Marriage bonus/penalty interactive -->
+    <div class="viz-card">
+      <div class="viz-card-title">Marriage Bonus or Penalty Calculator</div>
+      <div class="viz-card-desc">Compares filing jointly vs. two separate single returns. Green zones are where filing jointly saves money (bonus). Red zones are where two singles would pay less (penalty, common for similar high earners). The dot is your couple. Drag the sliders.</div>
+
+      <div class="slider-row" style="margin-bottom:14px;">
+        <span class="slider-label">Spouse A</span>
+        <div class="slider-wrapper">
+          <input type="range" id="spouseASlider" min="0" max="1000" step="1" value="649">
+          <div class="slider-tick-labels">
+            <span>$0</span><span>$50k</span><span>$150k</span><span>$400k</span><span>$750k</span>
+          </div>
+        </div>
+        <span class="income-display" id="spouseADisplay">$60,000</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Spouse B</span>
+        <div class="slider-wrapper">
+          <input type="range" id="spouseBSlider" min="0" max="1000" step="1" value="649">
+          <div class="slider-tick-labels">
+            <span>$0</span><span>$50k</span><span>$150k</span><span>$400k</span><span>$750k</span>
+          </div>
+        </div>
+        <span class="income-display" id="spouseBDisplay">$60,000</span>
+      </div>
+
+      <canvas id="marriageCanvas" style="width:100%;height:260px;display:block;margin-bottom:8px;"></canvas>
+      <div style="display:flex;gap:18px;margin-bottom:10px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);">
+          <span style="display:inline-block;width:14px;height:10px;background:rgba(42,127,111,0.75);border-radius:1px;"></span>
+          Bonus: filing jointly saves money
+        </div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);">
+          <span style="display:inline-block;width:14px;height:10px;background:rgba(200,75,49,0.75);border-radius:1px;"></span>
+          Penalty: two singles would pay less
+        </div>
+      </div>
+      <!-- Hidden for JS compat -->
+      <span id="mSingleTaxA" style="display:none;"></span>
+      <span id="mSingleTaxB" style="display:none;"></span>
+      <span id="mSingleTotal" style="display:none;"></span>
+      <span id="mJointIncome" style="display:none;"></span>
+      <span id="mJointTax" style="display:none;"></span>
+      <span id="mDiff" style="display:none;"></span>
+      <div id="marriageVerdict" style="font-size:13px;color:var(--muted);padding:10px 14px;background:var(--surface);border-left:3px solid var(--border);">Adjust the sliders to see the result.</div>
+      <div class="source-note">IRS Rev. Proc. 2023-34 · 2024 · federal income tax only · does not account for state taxes or FICA</div>
+    </div>
+
+    <p>The bracket thresholds in the tax code are deliberate policy choices about how to treat different household structures. They have been debated and revised repeatedly, which leads to the final question: how did any of this come to be, and how much has it changed?</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ 06 HISTORY ═══════════════════ -->
+<section id="s3">
+  <div class="container fade-in">
+    <div class="section-num">05 - A Century of Tax Policy</div>
+    <h2>The top marginal rate has ranged from 7% to 94%</h2>
+    <p>Every aspect of the bracket system explored in this article is the product of legislation. None of it is fixed by nature. The modern federal income tax was established in 1913 following ratification of the 16th Amendment, with a top rate of just 7% applied only to the wealthiest Americans. Within five years it had reached 77%, driven by the cost of World War I. The swings since then have been just as dramatic.</p>
+    <p>The chart below tracks the top marginal rate since 1913. Each labeled point is historically significant; click it to read the context. Hover any point to see the bracket count at that era, a second dimension that shows how the <em>structure</em> of the code has changed alongside its ceiling.</p>
+
+    <div class="viz-card">
+      <div class="viz-card-title">Top Marginal Rate, 1913 to 2024</div>
+      <div class="viz-card-desc">Hover any point for the bracket count at that era. Click labeled points for full historical context.</div>
+      <canvas id="history-canvas"></canvas>
+      <div id="historyAnnotation">Click a labeled point on the chart to read its historical context.</div>
+      <div class="source-note">Tax Foundation · IRS Historical Data · values are approximate for illustrative purposes</div>
+    </div>
+
+    <p>Three inflection points stand out. In <strong>1944</strong>, the top rate reached 94% on income above $200,000, a wartime measure reflecting the philosophy that extreme wealth should bear the heaviest burden during national emergency. The rate remained above 90% through the Eisenhower years, a period often nostalgically cited in tax debates, though scholars note that effective rates were far lower due to abundant deductions and loopholes.</p>
+    <p>In <strong>1988</strong>, the Reagan-era Tax Reform Act of 1986 took full effect and collapsed the bracket structure to just two rates, 15% and 28%. Hover the 1988 point on the chart to see the bracket count drop: from 56 at the WWI peak to 2 in 1988. This was a deliberate ideological choice, the theory being that fewer brackets meant fewer behavioral distortions, not just lower rates.</p>
+    <p>In <strong>2018</strong>, the Tax Cuts and Jobs Act set the current framework: seven brackets topped at 37%, paired with a near-doubling of the standard deduction from $6,350 to $12,000 (since adjusted to $14,600). The increased deduction effectively took millions of low-income filers out of the tax system entirely, while the rate reductions benefited higher earners.</p>
+    <p>What has never changed through any of this is the progressive principle itself: higher rates on higher slices, never retroactively applied to what came before. That mechanic has survived every revision to the code since 1913. The rates, the number of brackets, and the thresholds are policy choices. The logic of how those rates are applied is the constant.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ 07 SUMMARY ═══════════════════ -->
+<section id="s-recap">
+  <div class="container fade-in">
+    <div class="section-num">06 - Putting It Together</div>
+    <h2>One system, understood completely</h2>
+
+    <p>The U.S. federal income tax generates more confusion than almost any other system people encounter regularly. But the core logic is not complicated once you see each piece in sequence.</p>
+
+    <div class="callout highlight"><strong>1. The standard deduction comes first.</strong> Before any bracket applies, $14,600 of gross income (for single filers in 2024) is sheltered from federal income tax entirely. You are always taxed on less than you earn.</div>
+    <div class="callout highlight"><strong>2. Brackets are containers, not flat rates.</strong> Each bracket applies only to the income that falls within its range. Earning more never causes previously taxed income to be re-taxed at a higher rate. The buckets fill in order and stay filled at their own rates.</div>
+    <div class="callout highlight"><strong>3. Your marginal rate is not your effective rate.</strong> The marginal rate is the rate on your last dollar. The effective rate is total tax divided by total gross income. They are always different, and the effective rate is always lower, sometimes dramatically so.</div>
+    <div class="callout highlight"><strong>4. Within the federal income tax system, a raise always pays more.</strong> Because all marginal rates are below 100%, every additional dollar of income results in more money after federal income tax, regardless of which bracket it enters. There is no income level at which earning more costs you money in federal income tax.</div>
+    <div class="callout highlight"><strong>5. Filing status shifts both the deduction and the thresholds.</strong> The seven rates are identical for everyone, but where the brackets begin and how large the initial deduction is depends on your household structure. These differences are substantial and have real consequences over a lifetime of filing.</div>
+
+    <p style="margin-top:24px;">What the history section adds to this picture is that none of the specifics are permanent. The rates, the thresholds, the number of brackets, and the size of the standard deduction have all changed before and will change again. But the progressive principle, higher rates on higher slices, never applied retroactively, has been the foundation of the system since 1913 and underlies every version of the code that has existed since.</p>
+    <p>This article covers only the federal income tax bracket system. Your full tax picture also includes payroll taxes (Social Security and Medicare, a flat 7.65% on wages up to a cap), state income taxes (which vary widely and can be zero or above 10%), and capital gains taxes on investment income. Those are separate systems with their own structures. The progressive bracket mechanic described here applies specifically to the federal income tax portion of your bill.</p>
+  </div>
+</section>
+
+<footer>
+  Tax Brackets Explained &nbsp;·&nbsp; CSE 442 Data Visualization &nbsp;·&nbsp; University of Washington &nbsp;·&nbsp; 2024 &nbsp;·&nbsp; Data: IRS Rev. Proc. 2023-34 &nbsp;·&nbsp; Tax Foundation
+</footer>
+
+<script>
+// ─────────── DATA ───────────
+const STD_DED = 14600;
+
+const FILING_DATA = {
+  single: { deduction: 14600, label: "Single", brackets: [
+    { rate:0.10, min:0,      max:11600,   color:"#4a9eed" },
+    { rate:0.12, min:11600,  max:47150,   color:"#7bc67e" },
+    { rate:0.22, min:47150,  max:100525,  color:"#f0b429" },
+    { rate:0.24, min:100525, max:191950,  color:"#e07a5f" },
+    { rate:0.32, min:191950, max:243725,  color:"#c84b31" },
+    { rate:0.35, min:243725, max:609350,  color:"#9b59b6" },
+    { rate:0.37, min:609350, max:Infinity,color:"#2c3e50" },
+  ]},
+  mfj: { deduction: 29200, label: "Married Filing Jointly", brackets: [
+    { rate:0.10, min:0,       max:23200,   color:"#4a9eed" },
+    { rate:0.12, min:23200,   max:94300,   color:"#7bc67e" },
+    { rate:0.22, min:94300,   max:201050,  color:"#f0b429" },
+    { rate:0.24, min:201050,  max:383900,  color:"#e07a5f" },
+    { rate:0.32, min:383900,  max:487450,  color:"#c84b31" },
+    { rate:0.35, min:487450,  max:731200,  color:"#9b59b6" },
+    { rate:0.37, min:731200,  max:Infinity,color:"#2c3e50" },
+  ]},
+  hoh: { deduction: 21900, label: "Head of Household", brackets: [
+    { rate:0.10, min:0,       max:16550,   color:"#4a9eed" },
+    { rate:0.12, min:16550,   max:63100,   color:"#7bc67e" },
+    { rate:0.22, min:63100,   max:100500,  color:"#f0b429" },
+    { rate:0.24, min:100500,  max:191950,  color:"#e07a5f" },
+    { rate:0.32, min:191950,  max:243700,  color:"#c84b31" },
+    { rate:0.35, min:243700,  max:609350,  color:"#9b59b6" },
+    { rate:0.37, min:609350,  max:Infinity,color:"#2c3e50" },
+  ]}
+};
+
+const BRACKETS = FILING_DATA.single.brackets.map(b=>({...b, label:(b.rate*100).toFixed(0)+"%"}));
+
+const HISTORY = [
+  { year:1913, topRate:7,    brackets:7,  label:"1913",  note:"Modern income tax introduced via 16th Amendment. Top rate 7% on income over $500,000 (roughly $15M today)." },
+  { year:1918, topRate:77,   brackets:56, label:"1918",  note:"WWI revenue needs drove the top rate to 77%." },
+  { year:1925, topRate:25,   brackets:23, label:"1925",  note:"Post-war Mellon tax cuts reduced the top rate sharply." },
+  { year:1932, topRate:63,   brackets:55, label:"1932",  note:"Great Depression: Hoover raised rates to try to balance the federal budget." },
+  { year:1936, topRate:79,   brackets:31, label:null,    note:"FDR's New Deal era. Rates on the highest incomes continued rising." },
+  { year:1944, topRate:94,   brackets:24, label:"1944",  note:"WWII peak: 94% on income over $200,000 (roughly $3.5M today), the highest rate in U.S. history." },
+  { year:1952, topRate:92,   brackets:26, label:null,    note:"Korean War era. Rates held near WWII levels." },
+  { year:1960, topRate:91,   brackets:26, label:"1960",  note:"Eisenhower era. The 91% rate was rarely paid in practice due to extensive deductions." },
+  { year:1964, topRate:77,   brackets:26, label:null,    note:"Kennedy-Johnson tax cut reduced the top rate." },
+  { year:1970, topRate:72,   brackets:33, label:null,    note:"Nixon era. Further incremental reductions." },
+  { year:1982, topRate:50,   brackets:16, label:"1982",  note:"Reagan's Economic Recovery Tax Act cut the top rate from 70% to 50%." },
+  { year:1988, topRate:28,   brackets:2,  label:"1988",  note:"Tax Reform Act of 1986: collapsed to just 2 brackets. Top rate fell to 28%, lowest since the 1920s." },
+  { year:1993, topRate:39.6, brackets:5,  label:null,    note:"Clinton raised the top rate to 39.6% as part of deficit reduction." },
+  { year:2003, topRate:35,   brackets:6,  label:null,    note:"Bush tax cuts lowered the top rate to 35%." },
+  { year:2013, topRate:39.6, brackets:7,  label:null,    note:"Fiscal cliff deal restored 39.6% on income over $450,000." },
+  { year:2018, topRate:37,   brackets:7,  label:"2018",  note:"Tax Cuts and Jobs Act: 37% top rate, standard deduction nearly doubled. (7 brackets)" },
+  { year:2024, topRate:37,   brackets:7,  label:"2024",  note:"Current law. 37% applies to taxable income over $609,350 (single). Standard deduction: $14,600." },
+];
+
+// ─────────── HELPERS ───────────
+function fmt(n){ return "$"+Math.round(n).toLocaleString(); }
+function pct(n,d=1){ return (n*100).toFixed(d)+"%"; }
+
+function computeTax(gross, filing="single"){
+  const fd=FILING_DATA[filing];
+  const taxable=Math.max(0,gross-fd.deduction);
+  let total=0;
+  const breakdown=fd.brackets.map(b=>{
+    const inB=Math.max(0,Math.min(taxable,b.max===Infinity?taxable:b.max)-b.min);
+    const taxAmt=inB*b.rate; total+=taxAmt;
+    return{...b,label:(b.rate*100).toFixed(0)+"%",inBracket:inB,taxAmt};
+  });
+  const marginal=(fd.brackets.find(b=>taxable<=(b.max===Infinity?Infinity:b.max))||fd.brackets[fd.brackets.length-1]).rate;
+  return{total,taxable,breakdown,marginal,effective:gross>0?total/gross:0};
+}
+
+// ── Log slider: value 0-1000 maps to income range 0-maxInc
+// Adjusted: more resolution in $20k-$200k range (realistic salaries)
+function logSlider(v, maxInc=750000){
+  if(+v<=0)return 0;
+  // Use a piecewise: first 40% of slider = $0 to $100k, rest = $100k to maxInc
+  const pct=+v/1000;
+  if(pct<=0.45){
+    return Math.round((pct/0.45)*100000);
+  } else {
+    const t=(pct-0.45)/0.55;
+    return Math.round(100000 + t*(maxInc-100000));
+  }
+}
+
+function logSliderInverse(income, maxInc=750000){
+  if(income<=0)return 0;
+  if(income<=100000){
+    return Math.round((income/100000)*0.45*1000);
+  } else {
+    const t=(income-100000)/(maxInc-100000);
+    return Math.round((0.45+t*0.55)*1000);
+  }
+}
+
+// ─────────── 02: DEDUCTION VISUALIZER ───────────
+const deductionSlider=document.getElementById("deductionSlider");
+const DED_MAX=750000;
+const dedCanvas=document.getElementById("dedCanvas");
+const dedCtx=dedCanvas.getContext("2d");
+
+let dedFiling="single";
+
+// Filing toggle buttons
+document.querySelectorAll("#dedFilingRow .persona-btn").forEach(btn=>{
+  btn.addEventListener("click",function(){
+    document.querySelectorAll("#dedFilingRow .persona-btn").forEach(b=>b.classList.remove("active"));
+    this.classList.add("active");
+    dedFiling=this.dataset.filing;
+    updateDeduction();
+  });
+});
+
+function dedLogSlider(v){
+  if(+v<=0)return 0;
+  const pct=+v/1000;
+  if(pct<=0.45){ return Math.round((pct/0.45)*100000); }
+  else { const t=(pct-0.45)/0.55; return Math.round(100000+t*(DED_MAX-100000)); }
+}
+
+function drawDedCanvas(gross, filing){
+  const fd=FILING_DATA[filing];
+  const W=dedCanvas.offsetWidth, H=dedCanvas.offsetHeight;
+  if(!W||!H)return;
+  dedCanvas.width=W*devicePixelRatio; dedCanvas.height=H*devicePixelRatio;
+  dedCtx.scale(devicePixelRatio,devicePixelRatio);
+
+  if(gross<=0){
+    dedCtx.fillStyle="#b0a898"; dedCtx.font="12px 'DM Sans',sans-serif"; dedCtx.textAlign="center";
+    dedCtx.fillText("Move the slider to see your income breakdown",W/2,H/2);
+    return;
+  }
+
+  const {total} = computeTax(gross, filing);
+  const shelter = Math.min(gross, fd.deduction);
+  const remainder = gross - total;
+
+  const pL=0, pT=28, barH=38;
+  const totalW=W;
+
+  const segments = [
+    { label:"Sheltered", value:shelter, color:"rgba(200,75,49,0.45)", textColor:"#8a3020" },
+    { label:"Tax", value:total, color:"rgba(200,75,49,0.75)", textColor:"white" },
+    { label:"After fed. tax", value:remainder, color:"rgba(42,127,111,0.75)", textColor:"white" },
+  ];
+  dedCtx.font="9px 'DM Sans',sans-serif"; dedCtx.textAlign="left";
+  dedCtx.fillStyle="#b0a898";
+  dedCtx.fillText("GROSS INCOME: "+fmt(gross),pL,16);
+
+  let curX=pL;
+  segments.forEach(seg=>{
+    const w=Math.max((seg.value/gross)*totalW,0);
+    dedCtx.fillStyle=seg.color;
+    dedCtx.fillRect(curX,pT,w,barH);
+    if(w>52){
+      dedCtx.fillStyle=seg.textColor; dedCtx.font="bold 10px 'DM Sans',sans-serif"; dedCtx.textAlign="center";
+      dedCtx.fillText(seg.label,curX+w/2,pT+barH/2-5);
+      dedCtx.font="10px 'DM Sans',sans-serif";
+      dedCtx.fillText(fmt(seg.value),curX+w/2,pT+barH/2+8);
+    }
+    curX+=w;
+  });
+
+  curX=pL; const tickY=pT+barH;
+  segments.forEach((seg,i)=>{
+    const w=(seg.value/gross)*totalW;
+    curX+=w;
+    if(i<segments.length-1){
+      dedCtx.strokeStyle="#fff"; dedCtx.lineWidth=1.5;
+      dedCtx.beginPath(); dedCtx.moveTo(curX,pT); dedCtx.lineTo(curX,tickY); dedCtx.stroke();
+    }
+  });
+
+  curX=pL;
+  segments.forEach(seg=>{
+    const w=Math.max((seg.value/gross)*totalW,0);
+    dedCtx.fillStyle="#8a8070"; dedCtx.font="9px 'DM Sans',sans-serif"; dedCtx.textAlign="center";
+    if(w>30) dedCtx.fillText((seg.value/gross*100).toFixed(0)+"%",curX+w/2,pT+barH+13);
+    curX+=w;
+  });
+}
+
+function updateDeduction(){
+  const gross=dedLogSlider(+deductionSlider.value);
+  const fd=FILING_DATA[dedFiling];
+  document.getElementById("deductionDisplay").textContent=fmt(gross);
+  const taxable=Math.max(0,gross-fd.deduction);
+  document.getElementById("dedTaxableVal").textContent=fmt(taxable);
+  const share=gross>0?Math.min(1,fd.deduction/gross):1;
+  document.getElementById("dedShareVal").textContent=(share*100).toFixed(0)+"%";
+  const{marginal}=computeTax(gross,dedFiling);
+  const benefit=Math.min(gross,fd.deduction)*marginal;
+  document.getElementById("dedBenefitVal").textContent=fmt(benefit);
+  // Update source note
+  const sourceLabels={single:"single filer · standard deduction $14,600",mfj:"married filing jointly · standard deduction $29,200",hoh:"head of household · standard deduction $21,900"};
+  const sn=document.getElementById("dedSourceNote"); if(sn)sn.textContent=sourceLabels[dedFiling];
+  drawDedCanvas(gross, dedFiling);
+}
+deductionSlider.addEventListener("input",updateDeduction);
+window.addEventListener("resize",updateDeduction);
+setTimeout(updateDeduction,80);
+
+// ─────────── 03: MAIN BRACKET VISUALIZER ───────────
+const incomeSlider=document.getElementById("incomeSlider");
+
+function updateIncome(){
+  const gross=logSlider(+incomeSlider.value,750000);
+  document.getElementById("incomeDisplay").textContent=fmt(gross);
+  const{total,breakdown,marginal,effective,taxable}=computeTax(gross);
+
+  const taxBar=document.getElementById("taxBar");
+  taxBar.innerHTML="";
+  const totalTax=Math.max(total,1);
+  breakdown.forEach(b=>{
+    if(b.taxAmt<=0)return;
+    const seg=document.createElement("div");
+    seg.className="bar-segment"; seg.style.width=(b.taxAmt/totalTax*100)+"%";
+    seg.style.background=b.color; seg.title=b.label+": "+fmt(b.taxAmt);
+    taxBar.appendChild(seg);
+  });
+
+  const legend=document.getElementById("bracketLegend");
+  legend.innerHTML="";
+  BRACKETS.forEach(b=>{
+    const li=document.createElement("div"); li.className="legend-item";
+    li.innerHTML=`<span class="legend-dot" style="background:${b.color}"></span>${b.label}`;
+    legend.appendChild(li);
+  });
+
+  document.getElementById("statTax").textContent=fmt(total);
+  document.getElementById("statMarginal").textContent=pct(marginal);
+  document.getElementById("statEffective").textContent=pct(effective);
+  const thDisplay=document.getElementById("statTakeHomeDisplay");
+  if(thDisplay) thDisplay.textContent=fmt(gross-total);
+  // hidden compat
+  const sg=document.getElementById("statGross"); if(sg)sg.textContent=fmt(gross);
+  const th=document.getElementById("statTakeHome"); if(th)th.textContent=fmt(gross-total);
+  const sd=document.getElementById("statDiff"); if(sd)sd.textContent=((marginal-effective)*100).toFixed(1)+" pts";
+
+  const tbody=document.getElementById("bracketTableBody");
+  tbody.innerHTML="";
+  breakdown.forEach(b=>{
+    const tr=document.createElement("tr");
+    const isActive=taxable>b.min&&(b.max===Infinity||taxable<=b.max);
+    if(isActive)tr.className="active-row";
+    const rangeStr=b.max===Infinity?fmt(b.min)+" +":fmt(b.min)+" - "+fmt(b.max);
+    tr.innerHTML=`<td><span class="bracket-swatch" style="background:${b.color}"></span>${b.label}</td>
+      <td>${(b.rate*100).toFixed(0)}%</td><td>${rangeStr}</td>
+      <td class="amount-col">${b.inBracket>0?fmt(b.inBracket):"-"}</td>
+      <td class="amount-col">${b.taxAmt>0?fmt(b.taxAmt):"-"}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  // Bracket contribution chart
+  drawBracketContrib(breakdown, total);
+  // Dollar trail canvas: show how $1,000 at the current marginal bracket splits
+  drawDollarTrail(marginal, breakdown, taxable);
+}
+// Dollar trail: shows split of next $1,000 at current marginal rate
+const dtCanvas=document.getElementById("dollarTrailCanvas");
+const dtCtx=dtCanvas.getContext("2d");
+function drawDollarTrail(marginal, breakdown, taxable){
+  const W=dtCanvas.offsetWidth, H=dtCanvas.offsetHeight;
+  if(!W||!H)return;
+  dtCanvas.width=W*devicePixelRatio; dtCanvas.height=H*devicePixelRatio;
+  dtCtx.scale(devicePixelRatio,devicePixelRatio);
+  const barH=24, barY=(H-barH)/2, pL=0, pR=0;
+  const taxFrac=marginal;
+  const keepFrac=1-marginal;
+  // Tax segment
+  dtCtx.fillStyle="rgba(200,75,49,0.75)";
+  dtCtx.fillRect(pL, barY, taxFrac*W, barH);
+  // Keep segment
+  dtCtx.fillStyle="rgba(42,127,111,0.75)";
+  dtCtx.fillRect(pL+taxFrac*W, barY, keepFrac*W, barH);
+  // Labels inside bars
+  dtCtx.font="bold 11px 'DM Sans',sans-serif"; dtCtx.textAlign="center";
+  const taxPx=taxFrac*W;
+  const keepPx=keepFrac*W;
+  if(taxPx>60){
+    dtCtx.fillStyle="white";
+    dtCtx.fillText("Tax: $"+(marginal*1000).toFixed(0), pL+taxPx/2, barY+barH/2+4);
+  }
+  if(keepPx>80){
+    dtCtx.fillStyle="white";
+    dtCtx.fillText("You keep: $"+((1-marginal)*1000).toFixed(0), pL+taxPx+keepPx/2, barY+barH/2+4);
+  }
+  // Caption
+  const cap=document.getElementById("dollarTrailCaption");
+  cap.textContent="At a "+Math.round(marginal*100)+"% marginal rate, each additional $1,000 you earn costs $"+(marginal*1000).toFixed(0)+" in federal income tax. You keep $"+((1-marginal)*1000).toFixed(0)+".";
+}
+
+incomeSlider.addEventListener("input",function(){
+  // Deactivate all persona buttons when slider is dragged manually
+  document.querySelectorAll(".persona-btn").forEach(b=>b.classList.remove("active"));
+  updateIncome();
+});
+setTimeout(updateIncome,80);
+
+// Persona button logic
+document.querySelectorAll(".persona-btn").forEach(btn=>{
+  btn.addEventListener("click",function(){
+    document.querySelectorAll(".persona-btn").forEach(b=>b.classList.remove("active"));
+    this.classList.add("active");
+    const income=+this.dataset.income;
+    const sliderVal=logSliderInverse(income,750000);
+    incomeSlider.value=sliderVal;
+    updateIncome();
+  });
+});
+
+// Bracket contribution: horizontal proportional bar showing which bracket contributes what % of total tax
+const bContribCanvas=document.getElementById("bracketContribCanvas");
+const bContribCtx=bContribCanvas.getContext("2d");
+function drawBracketContrib(breakdown, total){
+  const W=bContribCanvas.offsetWidth, H=bContribCanvas.offsetHeight;
+  if(!W||!H)return;
+  bContribCanvas.width=W*devicePixelRatio; bContribCanvas.height=H*devicePixelRatio;
+  bContribCtx.scale(devicePixelRatio,devicePixelRatio);
+  if(total<=0){
+    bContribCtx.fillStyle="#b0a898"; bContribCtx.font="11px 'DM Sans',sans-serif"; bContribCtx.textAlign="center";
+    bContribCtx.fillText("Set an income above $14,600 to see bracket contributions",W/2,H/2+4);
+    return;
+  }
+  const barH=28, barY=H-barH-18;
+  let curX=0;
+  breakdown.forEach(b=>{
+    if(b.taxAmt<=0)return;
+    const w=(b.taxAmt/total)*W;
+    bContribCtx.fillStyle=b.color;
+    bContribCtx.fillRect(curX,barY,w,barH);
+    if(w>36){
+      bContribCtx.fillStyle="white"; bContribCtx.font="bold 9px 'DM Sans',sans-serif"; bContribCtx.textAlign="center";
+      bContribCtx.fillText(b.label,curX+w/2,barY+barH/2-3);
+      const pct2=(b.taxAmt/total*100).toFixed(0)+"%";
+      bContribCtx.fillText(pct2,curX+w/2,barY+barH/2+9);
+    }
+    // tick label below
+    bContribCtx.fillStyle="#8a8070"; bContribCtx.font="9px 'DM Sans',sans-serif"; bContribCtx.textAlign="center";
+    if(w>28) bContribCtx.fillText(fmt(b.taxAmt),curX+w/2,barY+barH+12);
+    curX+=w;
+  });
+}
+
+// Rate chart
+window.addEventListener("resize",()=>{
+  updateIncome();
+  updateDeduction();
+});
+
+// ─────────── 04: MYTH SLIDER ───────────
+const mythSlider=document.getElementById("mythSlider");
+const mythCanvas=document.getElementById("mythCanvas");
+const mythCtx=mythCanvas.getContext("2d");
+
+function mythLogSlider(v){
+  if(+v<=0)return 0;
+  const pct=+v/1000;
+  if(pct<=0.45){ return Math.round((pct/0.45)*100000); }
+  else { const t=(pct-0.45)/0.55; return Math.round(100000+t*(750000-100000)); }
+}
+
+function drawMythChart(currentGross){
+  const W=mythCanvas.offsetWidth,H=mythCanvas.offsetHeight;
+  if(!W||!H)return;
+  mythCanvas.width=W*devicePixelRatio; mythCanvas.height=H*devicePixelRatio;
+  mythCtx.scale(devicePixelRatio,devicePixelRatio);
+  const pL=54,pR=16,pT=14,pB=30,cW=W-pL-pR,cH=H-pT-pB;
+  const MAXINC=750000, N=400;
+  const maxY=250000; // max tax axis
+
+  // Grid
+  [0,50000,100000,150000,200000,250000].forEach(v=>{
+    const y=pT+cH-(v/maxY*cH);
+    mythCtx.strokeStyle="#f0ece2"; mythCtx.lineWidth=1;
+    mythCtx.beginPath(); mythCtx.moveTo(pL,y); mythCtx.lineTo(pL+cW,y); mythCtx.stroke();
+    mythCtx.fillStyle="#b0a898"; mythCtx.font="9px 'DM Sans',sans-serif"; mythCtx.textAlign="right";
+    mythCtx.fillText(v===0?"$0":"$"+(v/1000)+"k",pL-4,y+3);
+  });
+  [0,200000,400000,600000,750000].forEach(v=>{
+    const x=pL+(v/MAXINC)*cW;
+    mythCtx.fillStyle="#b0a898"; mythCtx.font="9px 'DM Sans',sans-serif"; mythCtx.textAlign="center";
+    mythCtx.fillText(v===0?"$0":"$"+(v/1000)+"k",x,pT+cH+18);
+  });
+
+  // Bracket boundary vertical markers
+  const bBounds=[11600,47150,100525,191950,243725,609350].filter(b=>b<MAXINC);
+  bBounds.forEach(b=>{
+    const x=pL+(b/MAXINC)*cW;
+    mythCtx.setLineDash([2,4]); mythCtx.strokeStyle="#d4c9b4"; mythCtx.lineWidth=1;
+    mythCtx.beginPath(); mythCtx.moveTo(x,pT); mythCtx.lineTo(x,pT+cH); mythCtx.stroke();
+    mythCtx.setLineDash([]);
+  });
+
+  // Fill between lines (the "gap")
+  mythCtx.beginPath();
+  for(let i=0;i<=N;i++){
+    const inc=(i/N)*MAXINC;
+    const {total,marginal}=computeTax(inc);
+    const mythTax=inc*marginal;
+    const y=pT+cH-(Math.min(mythTax,maxY)/maxY*cH);
+    const x=pL+(inc/MAXINC)*cW;
+    i===0?mythCtx.moveTo(x,y):mythCtx.lineTo(x,y);
+  }
+  for(let i=N;i>=0;i--){
+    const inc=(i/N)*MAXINC;
+    const {total}=computeTax(inc);
+    const y=pT+cH-(Math.min(total,maxY)/maxY*cH);
+    const x=pL+(inc/MAXINC)*cW;
+    mythCtx.lineTo(x,y);
+  }
+  mythCtx.closePath();
+  mythCtx.fillStyle="rgba(200,75,49,0.08)"; mythCtx.fill();
+
+  // Real tax line
+  mythCtx.beginPath(); mythCtx.strokeStyle="#2a7f6f"; mythCtx.lineWidth=2; mythCtx.lineJoin="round";
+  for(let i=0;i<=N;i++){
+    const inc=(i/N)*MAXINC, {total}=computeTax(inc);
+    const x=pL+(inc/MAXINC)*cW, y=pT+cH-(Math.min(total,maxY)/maxY*cH);
+    i===0?mythCtx.moveTo(x,y):mythCtx.lineTo(x,y);
+  }
+  mythCtx.stroke();
+
+  // Myth tax line (stepped / jagged)
+  mythCtx.beginPath(); mythCtx.strokeStyle="#c84b31"; mythCtx.lineWidth=1.5; mythCtx.lineJoin="round";
+  for(let i=0;i<=N;i++){
+    const inc=(i/N)*MAXINC, {marginal}=computeTax(inc);
+    const mythTax=inc*marginal;
+    const x=pL+(inc/MAXINC)*cW, y=pT+cH-(Math.min(mythTax,maxY)/maxY*cH);
+    i===0?mythCtx.moveTo(x,y):mythCtx.lineTo(x,y);
+  }
+  mythCtx.stroke();
+
+  // Current income marker
+  if(currentGross>0){
+    const {total,marginal}=computeTax(currentGross);
+    const cx=pL+(Math.min(currentGross,MAXINC)/MAXINC)*cW;
+    mythCtx.setLineDash([3,3]); mythCtx.strokeStyle="#e8a020"; mythCtx.lineWidth=1.5;
+    mythCtx.beginPath(); mythCtx.moveTo(cx,pT); mythCtx.lineTo(cx,pT+cH); mythCtx.stroke();
+    mythCtx.setLineDash([]);
+
+    // Real dot
+    const ryTax=Math.min(total,maxY);
+    const ry=pT+cH-(ryTax/maxY*cH);
+    mythCtx.beginPath(); mythCtx.arc(cx,ry,4.5,0,Math.PI*2);
+    mythCtx.fillStyle="#2a7f6f"; mythCtx.fill();
+    mythCtx.strokeStyle="white"; mythCtx.lineWidth=1.5; mythCtx.stroke();
+
+    // Myth dot
+    const myTax=Math.min(currentGross*marginal,maxY);
+    const my=pT+cH-(myTax/maxY*cH);
+    mythCtx.beginPath(); mythCtx.arc(cx,my,4.5,0,Math.PI*2);
+    mythCtx.fillStyle="#c84b31"; mythCtx.fill();
+    mythCtx.strokeStyle="white"; mythCtx.lineWidth=1.5; mythCtx.stroke();
+  }
+
+  // Legend
+  mythCtx.font="10px 'DM Sans',sans-serif"; mythCtx.textAlign="left";
+  [["#c84b31","Myth (flat rate)"],["#2a7f6f","Reality (progressive)"]].forEach(([c,l],i)=>{
+    const lx=pL+8, ly=pT+12+i*14;
+    mythCtx.fillStyle=c; mythCtx.fillRect(lx,ly-5,12,2);
+    mythCtx.fillStyle="#6a6060"; mythCtx.fillText(l,lx+16,ly);
+  });
+
+  // Axis label
+  mythCtx.save(); mythCtx.translate(10,pT+cH/2); mythCtx.rotate(-Math.PI/2);
+  mythCtx.fillStyle="#b0a898"; mythCtx.font="9px 'DM Sans',sans-serif"; mythCtx.textAlign="center";
+  mythCtx.fillText("tax owed",0,0); mythCtx.restore();
+}
+
+function updateMyth(){
+  const gross=mythLogSlider(+mythSlider.value);
+  document.getElementById("mythIncome").textContent=fmt(gross);
+  const{total,marginal}=computeTax(gross);
+  const mythTax=gross*marginal;
+  const maxBar=750000*0.37;
+  document.getElementById("mythBadBar").style.width=Math.min(100,mythTax/maxBar*100)+"%";
+  document.getElementById("mythGoodBar").style.width=Math.min(100,total/maxBar*100)+"%";
+  document.getElementById("mythBadAmt").textContent=fmt(mythTax);
+  document.getElementById("mythGoodAmt").textContent=fmt(total);
+  document.getElementById("mythDiff").textContent=fmt(mythTax-total);
+  drawMythChart(gross);
+}
+mythSlider.addEventListener("input",updateMyth);
+window.addEventListener("resize",()=>{ updateMyth(); });
+updateMyth();
+
+// ─────────── 05: FILING STATUS CHART ───────────
+const filingCanvas=document.getElementById("filingStatusChart");
+const fsCtx=filingCanvas.getContext("2d");
+let hoveredBracket=null;
+
+const STATUS_KEYS=["single","mfj","hoh"];
+const STATUS_LABELS={"single":"Single","mfj":"Married Filing Jointly","hoh":"Head of Household"};
+const STATUS_COLORS={"single":"rgba(42,127,111,0.85)","mfj":"rgba(74,158,237,0.85)","hoh":"rgba(232,160,32,0.85)"};
+const MAX_INCOME_FS=350000;
+
+let fsHitAreas=[];
+
+function drawFilingStatus(){
+  const W=filingCanvas.offsetWidth,H=filingCanvas.offsetHeight;
+  if(!W||!H)return;
+  filingCanvas.width=W*devicePixelRatio; filingCanvas.height=H*devicePixelRatio;
+  fsCtx.scale(devicePixelRatio,devicePixelRatio);
+
+  const pL=96,pR=30,pT=32,pB=30;
+  const cW=W-pL-pR,cH=H-pT-pB;
+  const nBrackets=7;
+  const nStatuses=3;
+  const groupH=Math.floor((cH-(nBrackets-1)*14)/nBrackets);
+  const groupGap=14;
+  const barH=Math.floor((groupH-(nStatuses-1)*3)/nStatuses);
+  const barGap=3;
+  fsHitAreas=[];
+
+  // Legend at top (left-aligned in chart area)
+  STATUS_KEYS.forEach((sk,i)=>{
+    const lx=pL+i*(cW/3);
+    fsCtx.fillStyle=STATUS_COLORS[sk]; fsCtx.fillRect(lx,10,14,10);
+    fsCtx.fillStyle="#444"; fsCtx.font="11px 'DM Sans',sans-serif"; fsCtx.textAlign="left";
+    fsCtx.fillText(STATUS_LABELS[sk],lx+20,20);
+  });
+
+  // x-axis grid lines and labels
+  const xTicks=[0,50000,100000,150000,200000,250000,300000,350000];
+  xTicks.forEach(v=>{
+    const x=pL+(v/MAX_INCOME_FS)*cW;
+    fsCtx.strokeStyle="#f0ece2"; fsCtx.lineWidth=1;
+    fsCtx.beginPath(); fsCtx.moveTo(x,pT); fsCtx.lineTo(x,pT+cH); fsCtx.stroke();
+    fsCtx.fillStyle="#b0a898"; fsCtx.font="10px 'DM Sans',sans-serif"; fsCtx.textAlign="center";
+    fsCtx.fillText(v===0?"$0":"$"+(v/1000)+"k",x,pT+cH+18);
+  });
+
+  BRACKETS.forEach((b,bi)=>{
+    const groupY=pT+bi*(groupH+groupGap);
+    fsCtx.fillStyle="#5a5450"; fsCtx.font="bold 11px 'DM Sans',sans-serif"; fsCtx.textAlign="right";
+    const midGroupY=groupY+groupH/2;
+    fsCtx.fillText(b.label,pL-10,midGroupY+4);
+
+    STATUS_KEYS.forEach((sk,si)=>{
+      const fd=FILING_DATA[sk];
+      const fb=fd.brackets[bi];
+      const barY=groupY+si*(barH+barGap);
+      const startX=pL+(fb.min/MAX_INCOME_FS)*cW;
+      const cappedMax=Math.min(fb.max===Infinity?MAX_INCOME_FS:fb.max,MAX_INCOME_FS);
+      const endX=pL+(cappedMax/MAX_INCOME_FS)*cW;
+      const barW=Math.max(endX-startX,0);
+
+      fsCtx.fillStyle="#ede8de";
+      fsCtx.fillRect(pL,barY,cW,barH);
+
+      const isHov=hoveredBracket&&hoveredBracket.status===sk&&hoveredBracket.bracketIdx===bi;
+      // Brighten color on hover/select instead of going black
+      const baseColor=STATUS_COLORS[sk];
+      const hoverColor=sk==="single"?"rgba(42,127,111,1.0)":sk==="mfj"?"rgba(74,158,237,1.0)":"rgba(232,160,32,1.0)";
+      fsCtx.fillStyle=isHov?hoverColor:baseColor;
+      fsCtx.fillRect(startX,barY,barW,barH);
+
+      if(fb.max===Infinity||fb.max>MAX_INCOME_FS){
+        fsCtx.fillStyle=isHov?hoverColor:baseColor;
+        fsCtx.beginPath();
+        fsCtx.moveTo(endX,barY); fsCtx.lineTo(Math.min(endX+8,pL+cW),barY+barH/2); fsCtx.lineTo(endX,barY+barH);
+        fsCtx.closePath(); fsCtx.fill();
+      }
+
+      if(isHov){
+        fsCtx.strokeStyle=sk==="single"?"#1a6055":sk==="mfj"?"#2a6ab0":"#a06808";
+        fsCtx.lineWidth=2;
+        fsCtx.strokeRect(startX,barY,barW,barH);
+      }
+
+      fsHitAreas.push({x:startX,y:barY,w:Math.max(barW,20),h:barH,status:sk,bracketIdx:bi,bracket:fb,fd});
+    });
+  });
+}
+
+filingCanvas.addEventListener("mousemove",function(e){
+  const rect=filingCanvas.getBoundingClientRect();
+  const mx=(e.clientX-rect.left), my=(e.clientY-rect.top);
+  let found=null;
+  for(const ha of fsHitAreas){
+    if(mx>=ha.x&&mx<=ha.x+ha.w&&my>=ha.y&&my<=ha.y+ha.h){found=ha;break;}
+  }
+  filingCanvas.style.cursor=found?"pointer":"default";
+});
+
+filingCanvas.addEventListener("click",function(e){
+  const rect=filingCanvas.getBoundingClientRect();
+  const mx=(e.clientX-rect.left), my=(e.clientY-rect.top);
+  let found=null;
+  for(const ha of fsHitAreas){
+    if(mx>=ha.x&&mx<=ha.x+ha.w&&my>=ha.y&&my<=ha.y+ha.h){found=ha;break;}
+  }
+  if(found){
+    hoveredBracket={status:found.status,bracketIdx:found.bracketIdx};
+    const fb=found.bracket;
+    const bi=found.bracketIdx;
+    const rate=(BRACKETS[bi].rate*100).toFixed(0)+"%";
+    const rangeStr=fb.max===Infinity?fmt(fb.min)+" and above":fmt(fb.min)+" to "+fmt(fb.max);
+    const width=fb.max===Infinity?"no upper limit":fmt(fb.max-fb.min)+" wide";
+    const ann=`${STATUS_LABELS[found.status]} · ${rate} bracket: ${rangeStr} (${width}). Standard deduction: ${fmt(found.fd.deduction)}.`;
+    const el=document.getElementById("filingAnnotation");
+    el.textContent=ann; el.classList.add("has-content");
+    drawFilingStatus();
+  }
+});
+
+window.addEventListener("resize",drawFilingStatus);
+setTimeout(drawFilingStatus,100);
+
+// ─────────── 05b: MARRIAGE BONUS/PENALTY CALCULATOR ───────────
+function marriageLogSlider(v){
+  if(+v<=0)return 0;
+  const pct=+v/1000;
+  if(pct<=0.45){ return Math.round((pct/0.45)*100000); }
+  else { const t=(pct-0.45)/0.55; return Math.round(100000+t*(750000-100000)); }
+}
+
+const mCanvas=document.getElementById("marriageCanvas");
+const mCtx=mCanvas.getContext("2d");
+const MMAX=750000;
+let _mHeatImg=null, _mHeatW=0, _mHeatH=0;
+
+function getMarriageHeatmap(W,H,pL,pR,pT,pB){
+  if(_mHeatImg && _mHeatW===W && _mHeatH===H) return _mHeatImg;
+  const cW=W-pL-pR, cH=H-pT-pB;
+  const tmp=document.createElement("canvas");
+  tmp.width=W; tmp.height=H;
+  const tc=tmp.getContext("2d");
+  const img=tc.createImageData(W,H);
+  const d=img.data;
+  for(let i=0;i<W*H*4;i+=4){ d[i]=245;d[i+1]=240;d[i+2]=232;d[i+3]=255; }
+  const step=3; // sample every 3 pixels for performance
+  for(let py=0;py<cH;py+=step){
+    for(let px=0;px<cW;px+=step){
+      const iA=(px/cW)*MMAX, iB=((cH-1-py)/cH)*MMAX;
+      const tA2=computeTax(iA,"single").total, tB2=computeTax(iB,"single").total;
+      const jt=computeTax(iA+iB,"mfj").total;
+      const df=tA2+tB2-jt;
+      if(Math.abs(df)<=100) continue;
+      const inten=Math.min(Math.abs(df)/30000,1);
+      // Fill the step×step block
+      for(let sy=0;sy<step&&py+sy<cH;sy++){
+        for(let sx=0;sx<step&&px+sx<cW;sx++){
+          const cx=px+sx+pL, cy=py+sy+pT;
+          const idx=(cy*W+cx)*4;
+          if(df>100){
+            d[idx]=Math.round(245-inten*170); d[idx+1]=Math.round(240-inten*85);
+            d[idx+2]=Math.round(232-inten*122); d[idx+3]=255;
+          } else {
+            d[idx]=Math.round(245-inten*45); d[idx+1]=Math.round(240-inten*165);
+            d[idx+2]=Math.round(232-inten*183); d[idx+3]=255;
+          }
+        }
+      }
+    }
+  }
+  tc.putImageData(img,0,0);
+  _mHeatImg=tmp; _mHeatW=W; _mHeatH=H;
+  return tmp;
+}
+
+function drawMarriageCanvas(taxA, taxB, jointTax, incA, incB){
+  const W=mCanvas.offsetWidth, H=mCanvas.offsetHeight;
+  if(!W||!H)return;
+  const dpr=devicePixelRatio||1;
+  mCanvas.width=W*dpr; mCanvas.height=H*dpr;
+  mCtx.scale(dpr,dpr);
+
+  const pL=52, pR=82, pT=22, pB=34;
+  const cW=W-pL-pR, cH=H-pT-pB;
+
+  // Draw cached heatmap
+  const heatImg=getMarriageHeatmap(W,H,pL,pR,pT,pB);
+  mCtx.drawImage(heatImg,0,0);
+
+  // Axes
+  mCtx.strokeStyle="#c8bfaf"; mCtx.lineWidth=1;
+  mCtx.beginPath(); mCtx.moveTo(pL,pT); mCtx.lineTo(pL,pT+cH); mCtx.lineTo(pL+cW,pT+cH); mCtx.stroke();
+
+  // Axis tick labels
+  [0,250000,500000,750000].forEach(v=>{
+    const x=pL+(v/MMAX)*cW;
+    mCtx.fillStyle="#8a8070"; mCtx.font="9px 'DM Sans',sans-serif"; mCtx.textAlign="center";
+    mCtx.fillText(v===0?"$0":"$"+(v/1000)+"k", x, pT+cH+14);
+    const y=pT+cH-(v/MMAX)*cH;
+    mCtx.textAlign="right";
+    mCtx.fillText(v===0?"$0":"$"+(v/1000)+"k", pL-4, y+3);
+  });
+
+  // Axis titles
+  mCtx.fillStyle="#8a8070"; mCtx.font="10px 'DM Sans',sans-serif"; mCtx.textAlign="center";
+  mCtx.fillText("Spouse A", pL+cW/2, pT+cH+26);
+  mCtx.save(); mCtx.translate(13,pT+cH/2); mCtx.rotate(-Math.PI/2);
+  mCtx.fillText("Spouse B", 0, 0); mCtx.restore();
+
+  // Neutral diagonal annotation
+  mCtx.setLineDash([3,4]); mCtx.strokeStyle="rgba(160,150,135,0.6)"; mCtx.lineWidth=1;
+  mCtx.beginPath(); mCtx.moveTo(pL,pT+cH); mCtx.lineTo(pL+cW,pT); mCtx.stroke();
+  mCtx.setLineDash([]);
+  mCtx.fillStyle="rgba(160,150,135,0.8)"; mCtx.font="italic 9px 'DM Sans',sans-serif"; mCtx.textAlign="center";
+  mCtx.fillText("equal incomes", pL+cW*0.72, pT+cH*0.22);
+
+  // Current position dot + crosshairs
+  const dotX=pL+(Math.min(incA,MMAX)/MMAX)*cW;
+  const dotY=pT+cH-(Math.min(incB,MMAX)/MMAX)*cH;
+  const diff=taxA+taxB-jointTax;
+  const dotColor=diff>50?"#2a7f6f":diff<-50?"#c84b31":"#d4900a";
+
+  mCtx.strokeStyle="rgba(26,26,46,0.25)"; mCtx.lineWidth=1; mCtx.setLineDash([2,3]);
+  mCtx.beginPath(); mCtx.moveTo(pL,dotY); mCtx.lineTo(pL+cW,dotY); mCtx.stroke();
+  mCtx.beginPath(); mCtx.moveTo(dotX,pT); mCtx.lineTo(dotX,pT+cH); mCtx.stroke();
+  mCtx.setLineDash([]);
+
+  mCtx.beginPath(); mCtx.arc(dotX,dotY,6,0,Math.PI*2);
+  mCtx.fillStyle=dotColor; mCtx.fill();
+  mCtx.strokeStyle="white"; mCtx.lineWidth=2; mCtx.stroke();
+
+  // Right panel comparison bars
+  const rxL=pL+cW+12, rxW=pR-16;
+  const singleTotal=taxA+taxB;
+  const maxT=Math.max(singleTotal,jointTax,1);
+  const bH=14, bGap=22, ry1=pT+14, ry2=ry1+bH+bGap;
+
+  mCtx.fillStyle="#8a8070"; mCtx.font="8px 'DM Sans',sans-serif"; mCtx.textAlign="left";
+  mCtx.fillText("SINGLES",rxL,ry1-3);
+  mCtx.fillStyle="#e0dbd0"; mCtx.fillRect(rxL,ry1,rxW,bH);
+  mCtx.fillStyle="rgba(200,75,49,0.65)"; mCtx.fillRect(rxL,ry1,Math.max(2,(singleTotal/maxT)*rxW),bH);
+  mCtx.fillStyle="#3a3530"; mCtx.font="bold 9px 'DM Sans',sans-serif";
+  mCtx.fillText(fmt(singleTotal),rxL,ry1+bH+10);
+
+  mCtx.fillStyle="#8a8070"; mCtx.font="8px 'DM Sans',sans-serif";
+  mCtx.fillText("JOINTLY",rxL,ry2-3);
+  const jCol=diff>50?"rgba(42,127,111,0.75)":diff<-50?"rgba(200,75,49,0.75)":"rgba(212,144,10,0.75)";
+  mCtx.fillStyle="#e0dbd0"; mCtx.fillRect(rxL,ry2,rxW,bH);
+  mCtx.fillStyle=jCol; mCtx.fillRect(rxL,ry2,Math.max(2,(jointTax/maxT)*rxW),bH);
+  mCtx.fillStyle="#3a3530"; mCtx.font="bold 9px 'DM Sans',sans-serif";
+  mCtx.fillText(fmt(jointTax),rxL,ry2+bH+10);
+  if(Math.abs(diff)>50){
+    mCtx.fillStyle=diff>0?"#2a7f6f":"#c84b31"; mCtx.font="bold 9px 'DM Sans',sans-serif";
+    mCtx.fillText((diff>0?"−":"+")+fmt(Math.abs(diff)),rxL,ry2+bH+22);
+  }
+}
+
+function updateMarriage(){
+  const a=marriageLogSlider(+document.getElementById("spouseASlider").value);
+  const b=marriageLogSlider(+document.getElementById("spouseBSlider").value);
+  document.getElementById("spouseADisplay").textContent=fmt(a);
+  document.getElementById("spouseBDisplay").textContent=fmt(b);
+
+  const taxA=computeTax(a,"single").total;
+  const taxB=computeTax(b,"single").total;
+  const combined=a+b;
+  const jointTax=computeTax(combined,"mfj").total;
+  const singleTotal=taxA+taxB;
+  const diff=singleTotal-jointTax;
+
+  // hidden compat spans
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set("mSingleTaxA",fmt(taxA)); set("mSingleTaxB",fmt(taxB));
+  set("mSingleTotal",fmt(singleTotal)); set("mJointIncome",fmt(combined));
+  set("mJointTax",fmt(jointTax));
+  set("mDiff",diff>50?fmt(diff)+" saved":diff<-50?fmt(Math.abs(diff))+" more":"Roughly equal");
+
+  drawMarriageCanvas(taxA,taxB,jointTax,a,b);
+
+  const verdictEl=document.getElementById("marriageVerdict");
+  if(diff>50){
+    verdictEl.textContent="Marriage bonus: this couple pays "+fmt(diff)+" less filing jointly than they would as two single filers.";
+    verdictEl.style.borderLeftColor="var(--teal)";
+  } else if(diff<-50){
+    verdictEl.textContent="Marriage penalty: this couple pays "+fmt(Math.abs(diff))+" more filing jointly than they would as two single filers.";
+    verdictEl.style.borderLeftColor="var(--accent)";
+  } else {
+    verdictEl.textContent="Near-neutral: the tax bill is roughly the same either way for this income combination.";
+    verdictEl.style.borderLeftColor="var(--gold)";
+  }
+}
+document.getElementById("spouseASlider").addEventListener("input",updateMarriage);
+document.getElementById("spouseBSlider").addEventListener("input",updateMarriage);
+window.addEventListener("resize",function(){ _mHeatImg=null; updateMarriage(); });
+setTimeout(updateMarriage,150);
+
+// ─────────── 06: HISTORY CHART ───────────
+const histCanvas=document.getElementById("history-canvas");
+const histCtx=histCanvas.getContext("2d");
+let histHitAreas=[];
+
+function drawHistory(){
+  const W=histCanvas.offsetWidth,H=histCanvas.offsetHeight;
+  if(!W||!H)return;
+  histCanvas.width=W*devicePixelRatio; histCanvas.height=H*devicePixelRatio;
+  histCtx.scale(devicePixelRatio,devicePixelRatio);
+  const pL=52,pR=20,pT=24,pB=30,cW=W-pL-pR,cH=H-pT-pB;
+  histHitAreas=[];
+
+  // Grid
+  [0,25,50,75,100].forEach(v=>{
+    const y=pT+cH-(v/100*cH);
+    histCtx.strokeStyle="#e8e2d6"; histCtx.lineWidth=1;
+    histCtx.beginPath(); histCtx.moveTo(pL,y); histCtx.lineTo(pL+cW,y); histCtx.stroke();
+    histCtx.fillStyle="#b0a898"; histCtx.font="10px 'DM Sans',sans-serif"; histCtx.textAlign="right";
+    histCtx.fillText(v+"%",pL-6,y+4);
+  });
+
+  // Area fill
+  histCtx.beginPath();
+  HISTORY.forEach((h,i)=>{
+    const x=pL+(i/(HISTORY.length-1))*cW, y=pT+cH-(h.topRate/100*cH);
+    i===0?histCtx.moveTo(x,y):histCtx.lineTo(x,y);
+  });
+  histCtx.lineTo(pL+cW,pT+cH); histCtx.lineTo(pL,pT+cH); histCtx.closePath();
+  const g=histCtx.createLinearGradient(0,pT,0,pT+cH);
+  g.addColorStop(0,"rgba(200,75,49,0.12)"); g.addColorStop(1,"rgba(200,75,49,0.01)");
+  histCtx.fillStyle=g; histCtx.fill();
+
+  // Line
+  histCtx.beginPath(); histCtx.strokeStyle="#c84b31"; histCtx.lineWidth=2; histCtx.lineJoin="round";
+  HISTORY.forEach((h,i)=>{
+    const x=pL+(i/(HISTORY.length-1))*cW, y=pT+cH-(h.topRate/100*cH);
+    i===0?histCtx.moveTo(x,y):histCtx.lineTo(x,y);
+  });
+  histCtx.stroke();
+
+  // Dots + labeled callouts
+  HISTORY.forEach((h,i)=>{
+    const x=pL+(i/(HISTORY.length-1))*cW, y=pT+cH-(h.topRate/100*cH);
+    const isLabeled=h.label!==null;
+    const r=isLabeled?5.5:4;
+    histCtx.beginPath(); histCtx.arc(x,y,r,0,Math.PI*2);
+    histCtx.fillStyle=isLabeled?"#c84b31":"#e8a020"; histCtx.fill();
+    if(isLabeled){
+      histCtx.strokeStyle="white"; histCtx.lineWidth=1.5; histCtx.stroke();
+      const above=y>pT+30;
+      const ly=above?y-10:y+18;
+      histCtx.fillStyle="#1a1a2e"; histCtx.font="bold 10px 'DM Sans',sans-serif"; histCtx.textAlign="center";
+      histCtx.fillText(h.label,x,ly);
+      histCtx.fillStyle="#8a8070"; histCtx.font="10px 'DM Sans',sans-serif";
+      histCtx.fillText(h.topRate+"%",x,above?y-21:y+29);
+    }
+    // All points are hoverable — include all in hit areas
+    histHitAreas.push({x,y,r:isLabeled?16:10,idx:i,h});
+  });
+
+  // Cursor hint
+  histCtx.fillStyle="#aaa"; histCtx.font="italic 9px 'DM Sans',sans-serif"; histCtx.textAlign="right";
+  histCtx.fillText("click labeled points for context",pL+cW,pT-8);
+}
+
+histCanvas.addEventListener("click",function(e){
+  const rect=histCanvas.getBoundingClientRect();
+  const mx=e.clientX-rect.left,my=e.clientY-rect.top;
+  let closest=null,closestD=Infinity;
+  histHitAreas.forEach(ha=>{
+    const d=Math.sqrt((mx-ha.x)**2+(my-ha.y)**2);
+    if(d<ha.r*2&&d<closestD){closestD=d;closest=ha;}
+  });
+  if(closest){
+    const h=closest.h;
+    document.getElementById("historyAnnotation").textContent=
+      h.year+": "+h.note;
+  }
+});
+
+histCanvas.addEventListener("mousemove",function(e){
+  const rect=histCanvas.getBoundingClientRect();
+  const mx=e.clientX-rect.left,my=e.clientY-rect.top;
+  let closest=null,closestD=Infinity;
+  histHitAreas.forEach(ha=>{
+    const d=Math.sqrt((mx-ha.x)**2+(my-ha.y)**2);
+    if(d<ha.r*1.5&&d<closestD){closestD=d;closest=ha;}
+  });
+  histCanvas.style.cursor=closest?"pointer":"default";
+  const tt=document.getElementById("globalTooltip");
+  if(closest){
+    const h=closest.h;
+    tt.style.display="block";
+    tt.style.left=(e.clientX+14)+"px";
+    tt.style.top=(e.clientY-28)+"px";
+    tt.textContent=h.year+" · "+h.topRate+"% top rate · "+h.brackets+" bracket"+(h.brackets>1?"s":"");
+  } else {
+    tt.style.display="none";
+  }
+});
+histCanvas.addEventListener("mouseleave",()=>{ document.getElementById("globalTooltip").style.display="none"; });
+
+window.addEventListener("resize",drawHistory);
+setTimeout(drawHistory,50);
+
+
+
+
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible");});
+},{threshold:0.1});
+document.querySelectorAll(".fade-in").forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
